@@ -20,13 +20,19 @@ export class StockService {
       console.log('Socket connected');
     });
 
-    this.socket.on('new stock added', function(){
+    this.socket.on('refresh', function(){
       onInit.updateStocks();
     });
   }
 
   addNewStock(newStock){
     this.socket.emit('new stock added', newStock);
+  }
+
+  deleteStock(stockSymbol){
+    console.log('deleteStock:', stockSymbol);
+    this.socket.emit('delete stock', stockSymbol);
+    //I should probably change this to a delete request
   }
 
   updateStocks(){

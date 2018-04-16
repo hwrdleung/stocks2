@@ -30,6 +30,9 @@ app.get('/update', function(req, res){
     });
 });
 
+app.delete('/delete/:stockSymbol', function(req, res){
+    console.log(req.param);
+});
 
 //Connect
 io.sockets.on('connection', function(socket){
@@ -45,7 +48,7 @@ io.sockets.on('connection', function(socket){
     //A connected user adds a new stock  
     socket.on('new stock added', function(data){
         console.log(data);
-        io.sockets.emit('new stock added', {stockSymbol: data});
+        io.sockets.emit('refresh');
 
         //Save new stock to database
         var newStock = new Stock({
@@ -58,6 +61,16 @@ io.sockets.on('connection', function(socket){
             }
             console.log('New stock symbol ' + data + ' has been saved to database');
         });
+    });
 
+   //A connected user deletes a stock
+    socket.on('delete stock', function(data){
+        Stock.findOneAndRemove({stockSymbol:data}, function (err){
+            if(err){
+                console.log(err);
+            }
+            //Triggers refresh on all connected clients
+            io.sockets.emit('refresh');
+        });
     });
 });
