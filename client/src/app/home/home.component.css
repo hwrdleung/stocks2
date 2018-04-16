@@ -1,0 +1,22 @@
+#stock-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#stock-box li{
+    list-style-type: none;
+    border: 1px #000 solid;
+    padding: 10px;
+    margin: 5px;
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+}
+
+#stock-box li h4 {
+    margin: 0;
+    padding: 0;
+}

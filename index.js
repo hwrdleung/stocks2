@@ -56,7 +56,7 @@ io.sockets.on('connection', function(socket){
             if(err){
                 console.log(err);
             }
-            console.log('New stock symbol ' + data + 'has been saved to database');
+            console.log('New stock symbol ' + data + ' has been saved to database');
         });
 
     });

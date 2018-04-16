@@ -1,7 +1,6 @@
 import { Component, OnInit, enableProdMode } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import * as io from 'socket.io-client';
-import { HttpClient } from '@angular/common/http';
+import { StockService } from '../stock.service'
 
 @Component({
   selector: 'app-home',
@@ -11,45 +10,22 @@ import { HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
 
   myform: FormGroup;
-  private url = 'http://localhost:3000/';
-  private socket;
-  private stocks;
 
-  constructor(private http:HttpClient) {
-    this.socket = io(this.url);
+  constructor(private stockService:StockService) {
    }
 
   ngOnInit() {
-    
-    var onInit = this;
-
     //Initialize form
     this.myform = new FormGroup({
       stockSymbol: new FormControl('')
     });
 
-    //Initialize stocks array with updated list of saved stocks from db
-    this.updateStocks();
-
-    this.socket.on('connection', function(){
-      console.log('Socket connected');
-    });
-
-    this.socket.on('new stock added', function(data){
-      console.log(data);
-      onInit.updateStocks();
-    });
+    this.stockService.updateStocks();
+    this.stockService.socketListener();
 
   }
 
-  updateStocks(){
-    this.http.get(this.url + 'update').subscribe((res)=>{
-      console.log(res);      
-      this.stocks = res;
-    });
-  }
-
-  sendMessage(){
+  formSubmit(){
 
     /*
       1.  validate the stock symbol and make sure that it is a valid stock symbol
@@ -60,9 +36,9 @@ export class HomeComponent implements OnInit {
       3.  clear the form
     */
 
-    var msg = this.myform.value.stockSymbol;
+    var newStock = this.myform.value.stockSymbol;
 
-    this.socket.emit('new stock added', msg);
+    this.stockService.addNewStock(newStock);
 
     this.myform.reset();
   }
