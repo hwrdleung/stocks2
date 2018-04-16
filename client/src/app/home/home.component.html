@@ -1,0 +1,13 @@
+
+  <form [formGroup]="myform" novalidate (ngSubmit)="sendMessage()">
+    <input type="text" formControlName="stockSymbol">
+    <button type="submit">Submit</button>
+  </form> 
+
+  <h3>Live data:</h3>
+  <ul>
+      <li *ngFor="let stock of stocks">
+          {{stock.stockSymbol}}
+        </li>
+        
+  </ul>
