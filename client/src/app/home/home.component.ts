@@ -10,9 +10,11 @@ import { StockService } from '../stock.service'
 export class HomeComponent implements OnInit {
 
   myform: FormGroup;
+  errorMsgs;
 
-  constructor(private stockService:StockService) {
-   }
+
+  constructor(private stockService: StockService) {
+  }
 
   ngOnInit() {
     //Initialize form
@@ -25,22 +27,24 @@ export class HomeComponent implements OnInit {
 
   }
 
-  formSubmit(){
+  isValid() {
+    var alphaVantageApiKey = 'QA392CBZXI80H0IX';
+    var alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=QA392CBZXI80H0IX';
+    
+  }
 
-    /*
-      1.  validate the stock symbol and make sure that it is a valid stock symbol
-            If valid: proceed
-            If !valid: return error msg or some shit
-      2.  Emit the socket event 'send message' and pass in the stock symbol
-      3.  Listen for the socket event 'send message'.  --> add data to UI as another list item
-      3.  clear the form
-    */
+  formSubmit() {
+    var isValid = false;
 
-    var newStock = this.myform.value.stockSymbol;
+    if (!isValid) {
+      this.errorMsgs = "Stock not found";
+    } else if (isValid) {
+      this.errorMsgs = "";
+      var newStock = this.myform.value.stockSymbol;
+      this.stockService.addNewStock(newStock);
+      this.myform.reset();
+    }
 
-    this.stockService.addNewStock(newStock);
-
-    this.myform.reset();
   }
 
 }
