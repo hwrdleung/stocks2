@@ -1,6 +1,7 @@
 import { Component, OnInit, enableProdMode } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { StockService } from '../stock.service'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,10 @@ export class HomeComponent implements OnInit {
   myform: FormGroup;
   errorMsgs;
 
+  private alphaVantageApiKey = 'QA392CBZXI80H0IX';
+  private alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=' + this.alphaVantageApiKey + '&symbol=';
 
-  constructor(private stockService: StockService) {
+  constructor(private stockService: StockService, private http:HttpClient) {
   }
 
   ngOnInit() {
@@ -24,27 +27,21 @@ export class HomeComponent implements OnInit {
 
     this.stockService.updateStocks();
     this.stockService.socketListener();
-
-  }
-
-  isValid() {
-    var alphaVantageApiKey = 'QA392CBZXI80H0IX';
-    var alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=QA392CBZXI80H0IX';
-    
   }
 
   formSubmit() {
-    var isValid = false;
+    var newStock = this.myform.value.stockSymbol;
 
-    if (!isValid) {
-      this.errorMsgs = "Stock not found";
-    } else if (isValid) {
-      this.errorMsgs = "";
-      var newStock = this.myform.value.stockSymbol;
-      this.stockService.addNewStock(newStock);
-      this.myform.reset();
-    }
-
+    this.http.get(this.alphaVantageApi + newStock).subscribe((res)=>{ 
+      console.log(res);     
+      if(res['Error Message']){
+        this.errorMsgs = "Stock not found";
+      }else {
+        this.errorMsgs = "";
+        this.stockService.addNewStock(newStock);
+        this.myform.reset();
+      }
+    });
   }
 
 }
