@@ -10,7 +10,7 @@ export class StockService {
   private socket;
   private stocks; //updateStocks() saves all current stocks to this stocks array.
   public allStockData = []; //Stores stock data formatted correctly for use in Highstocks.  This is used in chartComponent.
-  private url = '/';
+  private url = 'https://noodlestocks.herokuapp.com/';
   private alphaVantageApiKey = 'QA392CBZXI80H0IX';
   private alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=' + this.alphaVantageApiKey + '&symbol=';
 
