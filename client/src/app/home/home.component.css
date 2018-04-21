@@ -1,22 +1,107 @@
+
 #stock-box {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 90%;
 }
 
 #stock-box li{
+    background-color: rgb(233, 233, 233);
     list-style-type: none;
-    border: 1px #000 solid;
-    padding: 10px;
-    margin: 5px;
-    width: 100px;
+    padding: 7px 7px 7px 15px;
+    margin: 12px;
+    min-width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 5px;
-}
+    border: 1px #dddddd solid;
+    box-shadow: 0 0 10px 3px #dddddd;
+   }
 
-#stock-box li h4 {
+#stock-box li h5 {
+    color: #2D2D2D;
     margin: 0;
     padding: 0;
+}
+
+#error-msgs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 40px;
+    width: 200px;
+    left: 50%;
+    margin-left: -100px;
+    bottom: 100px;
+    background: red;
+    color: #FFF;
+}
+
+.container {
+    background: #FFF;
+    width: 85%;
+    margin: 20px auto;
+    padding: 20px 0;
+    text-align: center;
+
+    border: 1px #dddddd solid;
+    box-shadow: 0 0 10px 3px #dddddd;
+}
+
+.container h4 {
+    margin: 5px auto;
+}
+
+.container form {
+    max-width: 50%;
+    margin: 10px auto; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form input[type="text"] {
+    width: 200px;
+    height: 30px;
+    font-size: 1.5rem;
+    padding: 0 5px;
+    outline: none;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+form button {
+    font-size: 1.5rem;
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    margin: 0 5px;
+    border: 0;
+    transition: background-color 0.5s;
+        color: #2D2D2D;
+}
+
+form button:hover {
+    background-color: #13FF00;
+    transition: background-color 0.5s;
+}
+
+.delete-btn {
+    height: 25px;
+    width: 25px;
+    font-size: 1rem;
+    border: 0;
+    transition: background-color 0.5s;
+    color: #2D2D2D;
+
+}
+
+.delete-btn:hover {
+    background-color: #FF5834;
+    transition: background-color 1s;
 }

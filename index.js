@@ -47,18 +47,18 @@ io.sockets.on('connection', function(socket){
 
     //A connected user adds a new stock  
     socket.on('new stock added', function(data){
-        console.log(data);
-        io.sockets.emit('refresh');
+     
 
         //Save new stock to database
         var newStock = new Stock({
-            stockSymbol: data
+            stockSymbol: data.toUpperCase()
         });
 
         newStock.save(function(err){
             if(err){
                 console.log(err);
             }
+            io.sockets.emit('refresh');
             console.log('New stock symbol ' + data + ' has been saved to database');
         });
     });
@@ -71,6 +71,7 @@ io.sockets.on('connection', function(socket){
             }
             //Triggers refresh on all connected clients
             io.sockets.emit('refresh');
+            console.log(data + ' has been deleted from database');
         });
     });
 });

@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  name = 'Angular 5 Highstock from chart component';
+  name = 'Stock Chart';
   @ViewChild("container", { read: ElementRef }) container: ElementRef;
 
   message: any;

@@ -1,17 +1,19 @@
 
- 
-
+ <div class="container">
+<h4>Enter Stock Symbol:</h4>
  <form [formGroup]="myform" novalidate (ngSubmit)="formSubmit()">
-    <input type="text" formControlName="stockSymbol">
-    <button type="submit">Submit</button><br>
-    <h3>{{errorMsgs}}</h3>
+    <input type="text" formControlName="stockSymbol" maxlength="10">
+    <button type="submit">+</button><br>
   </form> 
 
 
-  <h3>Stocks:</h3>
   <ul id="stock-box" >
       <li *ngFor="let stock of this.stockService.stocks">
-          <h4>{{stock.stockSymbol}}</h4>
+          <h5>{{stock.stockSymbol}}</h5>
           <button class="delete-btn" (click)="this.stockService.deleteStock(stock.stockSymbol)">X</button>
         </li>
   </ul>
+
+  <div *ngIf="errorMsgs" id="error-msgs">{{errorMsgs}}</div>
+
+</div>

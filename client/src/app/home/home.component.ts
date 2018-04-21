@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
     var newStock = this.myform.value.stockSymbol;
     //Check if it's a valid stock symbol
     this.http.get(this.alphaVantageApi + newStock).subscribe((res)=>{ 
-      console.log(res);     
       if(res['Error Message']){
         this.errorMsgs = "Stock not found";
       }else {

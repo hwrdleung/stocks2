@@ -60,7 +60,6 @@ export class StockService {
   }
 
   deleteStock(stockSymbol) {
-    console.log('deleteStock:', stockSymbol);
     this.socket.emit('delete stock', stockSymbol);
     //I should probably change this to a delete request
   }
