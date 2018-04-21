@@ -398,7 +398,7 @@ var StockService = /** @class */ (function () {
     function StockService(http) {
         this.http = http;
         this.allStockData = []; //Stores stock data formatted correctly for use in Highstocks.  This is used in chartComponent.
-        this.url = 'http://localhost:3000/';
+        this.url = '/';
         this.alphaVantageApiKey = 'QA392CBZXI80H0IX';
         this.alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=' + this.alphaVantageApiKey + '&symbol=';
         // This observable is used to notify chartComponent to refresh the chart
