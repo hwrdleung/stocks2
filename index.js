@@ -5,16 +5,21 @@ var io = require('socket.io').listen(server);
 var cors = require('cors');
 var mongoose = require('mongoose');
 var Stock = require('./models/stock.js');
+var bodyParser = require('body-parser');
 var connections = [];
+var path = require('path');
 
 //Connect to mongoDB
 mongoose.connect('mongodb://noodles01:noodles01@ds257858.mlab.com:57858/noodlestocks');
 
 app.use(cors());
+app.use(express.static(__dirname + '/public/'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 //Route to main page
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
+app.get('/', (request, response)=>{
+    response.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 //Start Server
