@@ -13,9 +13,16 @@ export class StockService {
   private alphaVantageApi = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=' + this.alphaVantageApiKey + '&symbol=';
   allStockData = [];
 
+  simpleObservable = new Observable((observer)=>{
+    let test = this.allStockData;
+
+    observer.next(test);
+  })
+
   constructor(private http:HttpClient) { 
     this.socket = io(this.url);
   }
+
 
 
   // Socket.io emitters and listeners
@@ -63,7 +70,6 @@ export class StockService {
       };
 
       let dates = Object.keys(res['Time Series (Daily)']);
-      // console.log(dates);
 
       dates.forEach(function(date){
         let timeSerie = [];
@@ -78,9 +84,6 @@ export class StockService {
       });
       this.allStockData.push(stockDataObj);
       console.log('allStockData', this.allStockData);
-
-
-
     });
   }
 

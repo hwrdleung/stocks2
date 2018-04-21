@@ -19,6 +19,10 @@ export class ChartComponent implements OnInit {
   ngOnInit() {
     let context = this;
     this.refreshChart();
+
+    this.stockService.simpleObservable.subscribe((res)=>{
+      console.log('observable', res);
+    });
   }
 
   refreshChart(){
