@@ -19,7 +19,7 @@ export class StockService {
   }
 
   // This observable is used to notify chartComponent to refresh the chart
-  // after stock data is fetched from external api
+  // after stock data is fetched from external api. (Asynchronous)
   private subject = new Subject<any>();
 
   sendMessage(message: string) {
@@ -61,20 +61,19 @@ export class StockService {
 
   deleteStock(stockSymbol) {
     this.socket.emit('delete stock', stockSymbol);
-    //I should probably change this to a delete request
   }
 
   //---The following methods are used for preparing data for use in Highstocks
   updateStocks() {
-    //allStockData will store the finalized data for use in Highstocks 
-    //First, clear allStockData to prevent duplicate data from being saved
+    // allStockData will store the finalized data for use in Highstocks 
+    // First, clear allStockData to prevent duplicate data from being saved when new data is fetched
     this.allStockData = [];
 
-    //Updates stocks array with a list of all stocks currently saved in DB
-    //Calls function updateChart for each stock
+    // Update stocks array with a list of all stocks currently saved in DB
+    // Call function updateChart for each stock
     let context = this;
     this.http.get(this.url + 'update').subscribe((res) => {
-      this.stocks = res;//IDK why but res doesn't register as an array unless so I have to do this work-around
+      this.stocks = res; // res doesn't register as an array unless so I have to do this work-around
       this.stocks.forEach(function (data) {
         context.updateChartSeriesData(data.stockSymbol);
       });
@@ -82,9 +81,7 @@ export class StockService {
   }
 
   updateChartSeriesData(stockSymbol) {
-    //Get data for stockSymbol from Alpha Vantage
-    //Format the data for use in highstocks
-    //Push to allStockData array <--this is bound to stockChart in chartComponent
+    // Get data for stockSymbol from Alpha Vantage
     this.http.get(this.alphaVantageApi + stockSymbol).subscribe((res) => {
 
       let stockDataObj = {
@@ -94,7 +91,7 @@ export class StockService {
           valueDecimals: 2
         }
       };
-      //Data manipulation
+      // Format the data for use in highstocks
       let dates = Object.keys(res['Time Series (Daily)']);
 
       dates.forEach(function (date) {
@@ -105,10 +102,10 @@ export class StockService {
 
         timeSerie.push(unixDate);
         timeSerie.push(closingValue);
-        //timeSerie is not in the correct format: [1511481600000, 195.75]
-        stockDataObj.data.unshift(timeSerie); //Data must be in ascending order
+        //timeSerie should be in this format: [1511481600000, 195.75]
+        stockDataObj.data.unshift(timeSerie); //Data should be in ascending order
       });
-      //Data is now formmated correctly.  Save and notify chartComponent
+      //Data is now formmated correctly.  Save and notify chartComponent to refresh UI with new stock data
       this.allStockData.push(stockDataObj);
       this.sendMessage('Stock data fetched');
     });

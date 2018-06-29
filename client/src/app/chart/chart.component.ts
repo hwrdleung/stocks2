@@ -37,11 +37,11 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //Unsubscribe to ensure no memory leaks
+    // Unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
   }
 
-  //This function draws the chart.
+  // This function draws the chart.
   refreshChart() {
     Highcharts.stockChart(this.container.nativeElement, <any>{
       rangeSelector: {

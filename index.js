@@ -9,25 +9,25 @@ var bodyParser = require('body-parser');
 var connections = [];
 var path = require('path');
 
-//Connect to mongoDB
+// Connect to mongoDB
 mongoose.connect('mongodb://noodles01:noodles01@ds257858.mlab.com:57858/noodlestocks');
 
+// Middleware
 app.use(cors());
 app.use(express.static(__dirname + '/public/'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-//Route to main page
+// Route to main page
 app.get('/', (request, response)=>{
     response.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-//Start Server
+// Start Server
 server.listen(process.env.PORT || 3000);
 console.log('Server running...');
 
 //Socket.io
-
 app.get('/update', function(req, res){
     //Client is requesting an update of all stocks currently saved in DB
     Stock.find({}, function(err, data){
@@ -35,24 +35,24 @@ app.get('/update', function(req, res){
     });
 });
 
+// A user deletes an app
 app.delete('/delete/:stockSymbol', function(req, res){
     console.log(req.param);
 });
 
-//Connect
+// On connect
 io.sockets.on('connection', function(socket){
     connections.push(socket);
     console.log('Connected: %s sockets connected', connections.length);
 
-    //Disconnect
+    // On disconnect
     socket.on('disconnect', function(data){
         connections.splice(connections.indexOf(socket), 1);
         console.log('Disconnected: %s sockets connected', connections.length);
     });
 
-    //A connected user adds a new stock  
+    // A user adds a new stock  
     socket.on('new stock added', function(data){
-     
 
         //Save new stock to database
         var newStock = new Stock({
