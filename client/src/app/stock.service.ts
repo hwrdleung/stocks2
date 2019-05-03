@@ -86,7 +86,6 @@ export class StockService {
     //Format the data for use in highstocks
     //Push to allStockData array <--this is bound to stockChart in chartComponent
     this.http.get(this.alphaVantageApi + stockSymbol).subscribe((res) => {
-
       let stockDataObj = {
         name: stockSymbol,
         data: [],
